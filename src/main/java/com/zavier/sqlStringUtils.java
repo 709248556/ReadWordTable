@@ -94,14 +94,19 @@ public class sqlStringUtils {
         return tableStr.toString();
     }
 
-    public static String getIndex(XWPFTable table){
+    public static String getIndex(XWPFTable table,String tableName){
         int tableRowsSize = table.getRows().size()-1;
         StringBuffer tableStr = new StringBuffer();
+
         for (int i = 1; i <= tableRowsSize; i++) {
+            tableStr.append("ALTER TABLE "+tableName+" ADD ");
             String s = table.getRow(i).getCell(0).getText();
             String s1 = table.getRow(i).getCell(1).getText();
             String s2 = table.getRow(i).getCell(2).getText();
-            System.out.println();
+            tableStr.append(s1);
+            tableStr.append(" "+addSuffAndPre(s) +" ");
+            tableStr.append("("+addSuffAndPre(s2)+")");
+            tableStr.append(";");
         }
         return tableStr.toString();
     }

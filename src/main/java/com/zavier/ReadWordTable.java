@@ -223,18 +223,28 @@ public class ReadWordTable {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
         try (FileInputStream fileInputStream = new FileInputStream("E:\\java\\ReadWordTable-master\\src\\main\\resources\\bank.docx");
              XWPFDocument document = new XWPFDocument(fileInputStream);) {
             String sql1 = sqlStringUtils.getSql1(document.getParagraphs().get(0).getRuns().get(1).toString());
             List<XWPFTable> tables = document.getTables();
             String sql2 = sqlStringUtils.getSql2(tables.get(0));
-            String index = sqlStringUtils.getIndex(tables.get(1));
-//            System.out.println(sql1+sql2);
+            System.out.println(sql1+sql2);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+
+    public static void main(String[] args) {
+        try (FileInputStream fileInputStream = new FileInputStream("E:\\java\\ReadWordTable-master\\src\\main\\resources\\bank.docx");
+             XWPFDocument document = new XWPFDocument(fileInputStream);) {
+            List<XWPFTable> tables = document.getTables();
+            String index = sqlStringUtils.getIndex(tables.get(1),document.getParagraphs().get(0).getRuns().get(1).toString());
+            System.out.println(index);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
