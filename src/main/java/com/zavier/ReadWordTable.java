@@ -208,6 +208,26 @@ public class ReadWordTable {
         omitCellsList.clear();
     }
 
+    /**
+     * 创建表的sql语句
+     * @param document
+     */
+    public static void creatTableSql(XWPFDocument document) {
+        String sql0 = sqlStringUtils.deleteTable(document.getParagraphs().get(0).getRuns());
+        String sql1 = sqlStringUtils.getSql1(document.getParagraphs().get(0).getRuns());
+        List<XWPFTable> tables = document.getTables();
+        String sql2 = sqlStringUtils.getSql2(tables.get(0));
+        System.out.println(sql0+sql1+sql2);
+    }
+
+    /**
+     * 添加字段说明
+     * @param document
+     */
+    public static void creatColumnSql(XWPFDocument document) {
+        sqlStringUtils.getColumnSql(document);
+    }
+
     public static void main1(String[] args) {
         ReadWordTable readWordTable = new ReadWordTable();
 
@@ -223,21 +243,19 @@ public class ReadWordTable {
         }
     }
 
-    public static void main2(String[] args) {
-        try (FileInputStream fileInputStream = new FileInputStream("E:\\java\\ReadWordTable-master\\src\\main\\resources\\bank.docx");
+    public static void main(String[] args) {
+        try (FileInputStream fileInputStream = new FileInputStream("F:\\workspace\\ReadWordTable\\src\\main\\resources\\1.docx");
              XWPFDocument document = new XWPFDocument(fileInputStream);) {
-            String sql1 = sqlStringUtils.getSql1(document.getParagraphs().get(0).getRuns().get(1).toString());
-            List<XWPFTable> tables = document.getTables();
-            String sql2 = sqlStringUtils.getSql2(tables.get(0));
-            System.out.println(sql1+sql2);
+            creatTableSql(document);
+            creatColumnSql(document);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
 
-    public static void main(String[] args) {
-        try (FileInputStream fileInputStream = new FileInputStream("E:\\java\\ReadWordTable-master\\src\\main\\resources\\bank.docx");
+    public static void main2(String[] args) {
+        try (FileInputStream fileInputStream = new FileInputStream("F:\\workspace\\ReadWordTable\\src\\main\\resources\\bank.docx");
              XWPFDocument document = new XWPFDocument(fileInputStream);) {
             List<XWPFTable> tables = document.getTables();
             String index = sqlStringUtils.getIndex(tables.get(1),document.getParagraphs().get(0).getRuns().get(1).toString());
